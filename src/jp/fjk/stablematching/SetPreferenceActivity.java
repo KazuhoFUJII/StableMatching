@@ -164,7 +164,7 @@ public class SetPreferenceActivity extends Activity
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(Menu.NONE, MENU_RANDOM, Menu.NONE, "fill at random");
+		menu.add(Menu.NONE, MENU_RANDOM, Menu.NONE, "fill out at random");
 		return true;
 	}
 	
