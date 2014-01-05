@@ -23,10 +23,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnClickListener {
+	static final int CANCEL = 1;
 	Proposer[] men = new Proposer[Parameters.MAX_MEMBER];
 	Accepter[] women = new Accepter[Parameters.MAX_MEMBER];
 	Person[] persons = new Person[Parameters.MAX_MEMBER * 2];
 	int[] renew = new int[Parameters.MAX_MEMBER * 2];
+	
+	private int secret = 0;
 	
 	private Button arrange;
 	
@@ -143,85 +146,53 @@ public class MainActivity extends Activity implements OnClickListener {
 		tv.setOnClickListener(this);
 	}
 	
-	
-	static private final int OK = 0;
-	static private final int CANCEL = 1;
-	static private final int PEEP = 2;
-	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) { 
 		super.onActivityResult(requestCode, resultCode, intent);
-
-		switch (resultCode) {
-		case CANCEL:
-			return;
-			
-		//----------------------------------------------------------
-		case OK: {		
-			// set preference activity
-			if (requestCode < Parameters.MAX_MEMBER * 2) {
-				Person[] vsGroup;
-				int memberId = requestCode;
-				if (requestCode < Parameters.MAX_MEMBER) {
-					vsGroup = women;
-				} else {
-					vsGroup = men;
-				}
-				int[] ranking = intent.getIntArrayExtra("RANKING");
-				List<Person> preference = new ArrayList<Person>();
-				for (int i: ranking) {
-					preference.add(vsGroup[i]);
-				}
-				persons[memberId].setPreference(preference); 
-				{
-					String str = new String("");
-					for (int i: ranking) {
-						str = str + String.valueOf(i);
-					}
-				}
-				this.renew[memberId]++;
-				setNameText(memberId);
-				
-				if (isPreferencesCompleted()) {
-					this.arrange.setEnabled(true);
-				}
-				return;
-			}
-			// set name activity
-			if (requestCode >= Parameters.MAX_MEMBER * 2) {
-				int memberId = requestCode - Parameters.MAX_MEMBER * 2;
-				String name = intent.getStringExtra("NAME");
-				this.persons[memberId].setName(name);
-				setNameText(memberId);
-				return;
-			}
-			break; }
 		
-		//----------------------------------------------------------
-		case PEEP:
-			if (requestCode == 1 + Parameters.MAX_MEMBER * 2) {
-	         	String pref = new String("");
-	        	Person[][] mw = {this.men, this.women};
-	        	for (Person[] p: mw) {
-		        	for (int i = 0; i < this.member; i++) {
-		        		pref += p[i].toString() + ": ";
-		        		List<Person> list = p[i].getPreference();
-		        		if (list != null) {
-			        		for (int j = 0; j < this.member; j++) {
-			        			pref += list.get(j).getSymbol();
-			        		}
-		        		}
-		        		pref += "\n";
-		    		}
-	        	}
-	        	Intent intent2 = new Intent(this, PeepPreferenceActivity.class);
-	        	intent2.putExtra("PREFERENCE", pref);
-	        	startActivity(intent2);
-	        	return;
+		this.secret = 0;
+		
+		if (resultCode == CANCEL) {
+			return;				
+		}
+		// set preference activity
+		if (requestCode < Parameters.MAX_MEMBER * 2) {
+			Person[] vsGroup;
+			int memberId = requestCode;
+			if (requestCode < Parameters.MAX_MEMBER) {
+				vsGroup = women;
+			} else {
+				vsGroup = men;
 			}
-        }
+			int[] ranking = intent.getIntArrayExtra("RANKING");
+			List<Person> preference = new ArrayList<Person>();
+			for (int i: ranking) {
+				preference.add(vsGroup[i]);
+			}
+			persons[memberId].setPreference(preference); 
+			{
+				String str = new String("");
+				for (int i: ranking) {
+					str = str + String.valueOf(i);
+				}
+			}
+			this.renew[memberId]++;
+			setNameText(memberId);
+			
+			if (isPreferencesCompleted()) {
+				this.arrange.setEnabled(true);
+			}
+			return;
+		}
+		// set name activity
+		if (requestCode >= Parameters.MAX_MEMBER * 2) {
+			int memberId = requestCode - Parameters.MAX_MEMBER * 2;
+			String name = intent.getStringExtra("NAME");
+			this.persons[memberId].setName(name);
+			setNameText(memberId);
+			return;
+		}
 	}
-         
 	
 	boolean isPreferencesCompleted() {
 		for (int i = 0; i < this.member; i++) {
@@ -271,6 +242,30 @@ public class MainActivity extends Activity implements OnClickListener {
             	return;
         	}     	
 
+        }
+        //--------------------------
+        //secret
+        if (id == R.id.textView1) this.secret++;
+        if (this.secret == 10 && id == R.id.name0) {
+        	this.secret = 0;
+        	String pref = new String("");
+        	Person[][] mw = {this.men, this.women};
+        	for (Person[] p: mw) {
+	        	for (int i = 0; i < this.member; i++) {
+	        		pref += p[i].toString() + ": ";
+	        		List<Person> list = p[i].getPreference();
+	        		if (list != null) {
+		        		for (int j = 0; j < this.member; j++) {
+		        			pref += list.get(j).getSymbol();
+		        		}
+	        		}
+	        		pref += "\n";
+	    		}
+        	}
+        	Intent intent = new Intent(this, PeepPreferenceActivity.class);
+        	intent.putExtra("PREFERENCE", pref);
+        	startActivity(intent);
+        	return;
         }
         
         //--------------------------

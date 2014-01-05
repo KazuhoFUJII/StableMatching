@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class SetNameActivity extends Activity implements OnClickListener {
+	static final private int OK = 0;
+	static final private int CANCEL = 1;
 	String oldName;
 	EditText textbox;
 	
@@ -27,17 +29,11 @@ public class SetNameActivity extends Activity implements OnClickListener {
 		button.setOnClickListener(this);
 	}
 	
-	static private final int OK = 0;
-	static private final int CANCEL = 1;
-	static private final int PEEP = 2;
-	
 	@Override
 	public void onClick(View v) {
 		String newName = textbox.getText().toString();
 		if (newName.equals(oldName) || newName.equals("")) {
 			setResult(CANCEL, null);
-		} else if(newName.equals("$PEEPPREF")) {
-			setResult(PEEP, null);
 		} else {
 			Intent intent = new Intent();
 			intent.putExtra("NAME", newName);
