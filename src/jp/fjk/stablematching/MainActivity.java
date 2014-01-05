@@ -13,7 +13,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.text.Spannable;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -29,6 +28,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	Accepter[] women = new Accepter[Parameters.MAX_MEMBER];
 	Person[] persons = new Person[Parameters.MAX_MEMBER * 2];
 	int[] renew = new int[Parameters.MAX_MEMBER * 2];
+	
+	private int secret = 0;
 	
 	private Button arrange;
 	
@@ -80,6 +81,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		
 		TextView tv = (TextView) findViewById(R.id.textView1);
 		tv.setText("Enter each preference.");
+		tv.setOnClickListener(this);
 		        		
 		this.arrange = (Button) findViewById(R.id.arrangeButton);
 		this.arrange.setText("Arrange");
@@ -146,7 +148,10 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) { 
-		super.onActivityResult(requestCode, resultCode, intent);	
+		super.onActivityResult(requestCode, resultCode, intent);
+		
+		this.secret = 0;
+		
 		if (resultCode == CANCEL) {
 			return;				
 		}
@@ -170,7 +175,6 @@ public class MainActivity extends Activity implements OnClickListener {
 				for (int i: ranking) {
 					str = str + String.valueOf(i);
 				}
-				Log.d("", persons[memberId].toString() + "'s ranking: " + str);
 			}
 			this.renew[memberId]++;
 			setNameText(memberId);
@@ -201,11 +205,12 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	public void onClick(View v) {
 		int id = v.getId();
+		//--------------------------
 		// Arrange Button
       	if (id == R.id.arrangeButton) {
       		for (int i = 0; i < member; i++) {
-      			if(this.men[i].getPreference() == null ||
-      			   this.women[i].getPreference() == null) {
+      			if (this.men[i].getPreference() == null ||
+      			    this.women[i].getPreference() == null) {
       				return;
       			}
       		}
@@ -225,7 +230,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			startActivity(intent);
 			return; 
 		}
-      	
+      	//--------------------------
     	// Set Preference Button 	
         for (int i = 0; i < Parameters.MAX_MEMBER; i++) {
         	if (id == buttonId[i]) {
@@ -238,14 +243,41 @@ public class MainActivity extends Activity implements OnClickListener {
         	}     	
 
         }
+        //--------------------------
+        //secret
+        if (id == R.id.textView1) this.secret++;
+        if (this.secret == 10 && id == R.id.name0) {
+        	this.secret = 0;
+        	String pref = new String("");
+        	Person[][] mw = {this.men, this.women};
+        	for (Person[] p: mw) {
+	        	for (int i = 0; i < this.member; i++) {
+	        		pref += p[i].toString() + ": ";
+	        		List<Person> list = p[i].getPreference();
+	        		if (list != null) {
+		        		for (int j = 0; j < this.member; j++) {
+		        			pref += list.get(j).getSymbol();
+		        		}
+	        		}
+	        		pref += "\n";
+	    		}
+        	}
+        	Intent intent = new Intent(this, PeepPreferenceActivity.class);
+        	intent.putExtra("PREFERENCE", pref);
+        	startActivity(intent);
+        	return;
+        }
+        
+        //--------------------------
     	// Name Text
         for (int i = 0; i < 2 * Parameters.MAX_MEMBER; i++) {
         	if (id == textViewNameId[i]) {
         		Intent intent = new Intent(this, SetNameActivity.class);
         		intent.putExtra("NAME", persons[i].getName());
         		startActivityForResult(intent, i + 2 * Parameters.MAX_MEMBER);
+        		return;
         	}
-        }    	
+        }
 	}
 	
 	private void setPreferenceActivity(int j, Person p, Person[] vsGroup) {

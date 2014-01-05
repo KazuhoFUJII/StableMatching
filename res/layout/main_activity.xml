@@ -17,13 +17,15 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:textSize="18sp"
+            android:clickable="true"
              />
 
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:stretchColumns="1" >
+            android:stretchColumns="1"
+            android:shrinkColumns="1" >
 
             <TableRow
                 android:id="@+id/row0"

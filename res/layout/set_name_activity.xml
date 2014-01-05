@@ -12,13 +12,16 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         />
+    <!-- Whan using Japanese literature,
+         literatures more than 9 break apearance.
+         Can I limit byte number not literature number? -->
     <EditText
         android:id="@+id/textbox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:maxLength="9"
-        />
+        android:inputType="textPersonName"       
+        android:maxLength="9" 
+        /> 
     <Button
         android:id="@+id/okButton"
         android:layout_width="match_parent"

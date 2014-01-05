@@ -6,49 +6,68 @@ import java.util.Random;
 
 public class Namer {
 	private final static String[] MALE_NAMES = {
-			"Barco", "Zapato", "Sol", "Libro", "Mundo", "Abril", "Ano", "Amino",
-			"Lapiz", "Vidrio", "Metal", "Brazo", "Derecho", "Fuego",
-			"Castillo", "Arbol", "Hielo", "Pajaro", "Viento", "Edificio",
-			"Campo", "Recado", "Traje", "Bolsillo", "Avion", "Alumno", "Agosto",
-			"Matres", "Marzo", "Espejo", "Esfuerzo", "Jueves", "Juego",
-			};
+		"Abril"  , "Agosto"  , "Alumno"  , "Amino"   , "Ano"     ,
+		"Arbol"  , "Avion"   , "Barco"   , "Bolsillo", "Brazo"   ,
+		"Campo"  , "Canamo"  , "Canon"   , "Cantaro" , "Castillo", 
+		"Derecho", "Edificio", "Esfuerzo", "Espejo"  , "Fuego"   ,
+		"Hielo"  , "Juego"   , "Jueves"  , "Lapiz"   , "Libro"   ,
+		"Marzo"  , "Matres"  , "Metal"   , "Mundo"   , "Oro"     ,
+		"Pajaro" , "Paseo"   , "Porvenir", "Rayo"    , "Recado"  ,
+		"Reposo" , "Sol"     , "Traje"   , "Verano"  , "Viaje"   ,
+		"Vidrio" , "Viento"  , "Zapato"  ,		
+		};
 	private final static String[] FEMALE_NAMES = {
-			"Luna", "Letra", "Mano", "Mesa", "Poesia", "Noche", "Manana",
-			"Botella", "Fuerza", "Fruta", "Fuente", "Flor", "Verdura",
-			"Bicicleta", "Agua", "Camisa", "Casa", "Estrella", "Ventana",
-			"Cuerda", "Guerra", "Aguja", "Carne", "Gota", "Moda", "Primavera",
-			"Foto", "Fortuna", "Literatura", "Historia", "Esperanza", "Salida",
-			"Joya", "Cultura", "Curva",
-			};
-	private List<String> mlist = new ArrayList<String>();
-	private List<String> flist = new ArrayList<String>();
+		"Agua"   , "Aguja"  , "Bicicleta", "Boda"     , "Botella", 
+		"Camisa" , "Cantata", "Carne"    , "Casa"     , "Cuerda" , 
+		"Cultura", "Curva"  , "Esperanza", "Estrella" , "Fuente" , 
+		"Fuerza" , "Flor"   , "Fortuna"  , "Foto"     , "Fruta"  , 
+		"Luna"   , "Letra"  , "Mano"     , "Mesa"     , "Manana" , 
+		"Moda"   , "Gota"   , "Guerra"   , "Historia" , "Joya"   , 
+		"Ventana", "Verdad" , "Verdura"  , "Orilla"   , "Partida",
+		"Pasion" , "Patria" , "Poesia"   , "Primavera", "Noche"  ,		 
+		"Revista", "Ruta"   , "Salida"   , "Semana"   , "Torre"  , 
+		};
+	private List<String> mlist, flist;
 
 	private Random random;
 
 	public Namer() {
 		random = new Random(System.currentTimeMillis());
-		for (String name : MALE_NAMES) {
-			mlist.add(name);
+		mlist = newMaleNameList();
+		flist = newFemaleNameList();
+	}
+	
+	private List<String> newMaleNameList() {
+		List<String> list = new ArrayList<String>();
+		for (String name: MALE_NAMES) {
+			list.add(name);
 		}
-		for (String name : FEMALE_NAMES) {
-			flist.add(name);
+		return list;
+	}
+	
+	private List<String> newFemaleNameList() {
+		List<String> list = new ArrayList<String>();
+		for (String name: FEMALE_NAMES) {
+			list.add(name);
 		}
+		return list;
 	}
 
 	public String getMaleName() {
-		return getName(mlist);
+		int s = mlist.size();
+		if (s <= 0) {
+			mlist = newMaleNameList();
+		}
+		int i = random.nextInt(s);
+		return mlist.remove(i);
 	}
 
 	public String getFemaleName() {
-		return getName(flist);
-	}
-
-	private String getName(List<String> list) {
-		int s = list.size();
+		int s = flist.size();
 		if (s <= 0) {
-			return "";
+			flist = newMaleNameList();
 		}
 		int i = random.nextInt(s);
-		return list.remove(i);
+		return flist.remove(i);
 	}
 }
