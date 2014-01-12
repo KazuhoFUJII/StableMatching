@@ -32,8 +32,8 @@ public class MatchMaker {
 					"Can not get stable matching. Iteration does not stop.");
 		}
 		// for test
-		checkCouples(proposer, accepter);
-		checkStable(proposer, accepter);
+		//checkCouples(proposer, accepter);
+		//checkStable(proposer, accepter);
 	}
 
 	private static void checkMembers(Proposer[] proposer, Accepter[] accepter) {
@@ -57,6 +57,7 @@ public class MatchMaker {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static void checkCouples(Proposer[] proposer, Accepter[] accepter) {
 		for (Proposer p : proposer) {
 			Accepter fiancee = (Accepter) p.getFiance();
@@ -74,6 +75,7 @@ public class MatchMaker {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static void checkStable(Proposer[] proposer, Accepter[] accepter) {
 		for (Proposer m : proposer) {
 			Accepter fiancee = (Accepter) m.getFiance();

@@ -47,7 +47,7 @@ public class SetPreferenceActivity extends Activity
 		Bundle extras = getIntent().getExtras();
 		
 		TextView tv = (TextView) findViewById(R.id.message);
-		tv.setText(extras.getString("PERSON") + "'s preference");
+		tv.setText(extras.getString("PERSON") + "'s preference:");
 		
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item);
@@ -60,7 +60,7 @@ public class SetPreferenceActivity extends Activity
 		}
 		for (int i = 0; i < this.member; i++) {
 			tv = (TextView) findViewById(textViewId[i]);
-			tv.setText(String.valueOf(i+1) + ". ");
+			tv.setText(String.valueOf(i+1) + ": ");
 			spinner[i] = (Spinner) findViewById(spinnerId[i]);
 			spinner[i].setAdapter(adapter);
 			spinner[i].setOnItemSelectedListener(this);
@@ -160,11 +160,11 @@ public class SetPreferenceActivity extends Activity
 	}
 	
 	//------------------------------------------------------------------------------------
-	private final int MENU_RANDOM = 864087143;
+	private final int MENU_RANDOM = 840387143;
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(Menu.NONE, MENU_RANDOM, Menu.NONE, "Fill Out at Random");
+		menu.add(Menu.NONE, MENU_RANDOM, Menu.NONE, "Fill out at random");
 		return true;
 	}
 	

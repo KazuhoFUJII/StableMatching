@@ -271,7 +271,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 //		menu.add(Menu.NONE, MENU_PREV_SESSION, Menu.NONE, "Previous Session");
 		SubMenu subMenu = menu.addSubMenu(
-				Menu.NONE, MENU_NEW_SESSION, Menu.NONE, "New Session");
+				Menu.NONE, MENU_NEW_SESSION, Menu.NONE, "New session");
 		for (int i = 2; i <= 8; i++) {
 			String title = String.valueOf(i) + " - " + String.valueOf(i);
 			subMenu.add(Menu.NONE, i, Menu.NONE, title);
