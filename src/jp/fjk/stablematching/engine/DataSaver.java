@@ -5,8 +5,8 @@ package jp.fjk.stablematching.engine;
  * @author user
  *
  */
-public class SaveDataManager {
-	public SaveDataManager() {
+public class DataSaver {
+	public DataSaver() {
 		// TODO
 	}
 	

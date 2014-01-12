@@ -6,7 +6,7 @@ public class Person {
 	protected String symbol;
 	protected String name;
 	protected Person fiance = null;
-	protected List<Person> preference;
+	protected List<Person> preference = null;
 	
 	public Person(String symbol, String name) throws IllegalArgumentException {
 		if (symbol == null) {
