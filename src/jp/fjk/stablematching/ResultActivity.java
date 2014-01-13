@@ -33,7 +33,7 @@ public class ResultActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.result_activity);
 		TextView tv = (TextView) findViewById(R.id.textView1);
-		tv.setText("The stable matcing is below:");
+		tv.setText("The stable matching is below:");
 		
 		Bundle extras = getIntent().getExtras();
 		String[] names = extras.getStringArray("NAMES");
